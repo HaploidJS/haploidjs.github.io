@@ -1,0 +1,15 @@
+{
+  "name": "haploidjs.github.io",
+  "version": "1.0.0",
+  "description": "website of https://haploidjs.github.io",
+  "private": true,
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs"
+  },
+  "author": "yanni4night@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "2.0.0-beta.67"
+  }
+}
