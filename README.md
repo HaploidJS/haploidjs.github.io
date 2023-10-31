@@ -3,7 +3,7 @@
 ![build status](https://github.com/HaploidJS/haploidjs.github.io/actions/workflows/github-pages.yml/badge.svg)
 
 ```sh
-yarn dev
+npm run dev
 
-yarn build
+npm run build
 ```
