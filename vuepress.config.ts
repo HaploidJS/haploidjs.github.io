@@ -6,6 +6,7 @@ import { navbarEn, navbarZh } from "./configs/navbar/";
 
 export default defineUserConfig({
   theme: defaultTheme({
+    logo: "/assets/logo.svg",
     repo: "HaploidJS/haploid",
     docsRepo: "HaploidJS/haploidjs.github.io",
     docsBranch: "main",
