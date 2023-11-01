@@ -1,5 +1,7 @@
 # 注册子应用
 
+[[toc]]
+
 通常可以用容器实例的 `registerApp` 方法来注册一个子应用，也可以用 `registerApps` 来批量注册。
 
 它们返回的是 _AppAPI_ 对象，该对象提供了一系列的属性用于细粒度访问该子应用的状态、控制子应用的行为以及监听子应用的事件。
@@ -107,26 +109,24 @@ interface JSONEntryV2 {
 
 Haploid.js 还支持 JS 格式的 entry，不过这样就缺少了对 CSS 的描述。
 
-JS 分为 ESM 和 UMD 两种格式。由于这两种 JS 的执行方式不同，因此需要判断格式信息。
+对于如果 entry 以 _.js_ 或者 _.mjs_ 结尾，或者请求 entry 返回的 _Content-Type_ 包含 _text/javascript_、_application/javascript_ 或者 _application/ecmascript_，则该 entry 被认定为 JS 格式。
 
-- 如何 entry 以 _.js_ 结尾，则认为其为 UMD 格式；
-- 如何 entry 以 _.mjs_ 结尾，则认为其为 ESM 格式；
-- 以 _Function(code)_ 的方式执行，如果抛出以下异常，则认为为 ESM 格式，否则为 UMD 格式
-  - /Unexpected token 'export'/
-  - /Cannot use import statement outside a module/
-  - /Cannot use 'import.meta' outside a module/
-  - /Unexpected keyword 'export'/
-  - /Unexpected identifier .+ import call expects exactly one argument/
-  - /import.meta is only valid inside modules/
-  - /(import|export) declarations may only appear at top level of a module/
-  - /import.meta may only appear in a module/
+JS 分为 ESM 和 UMD 两种格式。由于这两种的执行方式不同，因此 Haploid.js 需要判断格式，以下列方法：
+
+- 如果 entry 以 _.js_ 结尾，则认为其为 UMD 格式；
+- 如果 entry 以 _.mjs_ 结尾，则认为其为 ESM 格式；
+- 尝试以 _Function(code)_ 的方式创建函数，如果抛出以下异常，则认为为 ESM 格式，否则为 UMD 格式
+  - `/Unexpected token 'export'/`
+  - `/Cannot use import statement outside a module/`
+  - `/Cannot use 'import.meta' outside a module/`
+  - `/Unexpected keyword 'export'/`
+  - `/Unexpected identifier .+ import call expects exactly one argument/`
+  - `/import.meta is only valid inside modules/`
+  - `/(import|export) declarations may only appear at top level of a module/`
+  - `/import.meta may only appear in a module/`
 
 ::: warning
-为避免产生不必要的歧义和副作用，如果一定要使用JS格式，请尽可能指定明确的后缀名。
-:::
-
-::: tip
-如果 entry 以 _.js_ 或者 _.mjs_ 结尾，或者请求 entry 返回的 Content-Type 包含 _text/javascript_、_application/javascript_ 或者 _application/ecmascript_，则该 entry 被认定为 JS 格式。
+上面的方法并不保险，为避免产生不必要的歧义和副作用，如果一定要使用 JS entry，请尽可能指定明确的后缀名。
 :::
 
 ### Object entry
