@@ -1,10 +1,17 @@
 import { defineUserConfig, defaultTheme } from "vuepress";
+import { shikiPlugin } from "@vuepress/plugin-shiki";
 
 import { sidebarEn, sidebarZh } from "./configs/sidebar/";
 
 import { navbarEn, navbarZh } from "./configs/navbar/";
 
 export default defineUserConfig({
+  plugins: [
+    shikiPlugin({
+      theme: "material-theme",
+      langs: ["javascript", "typescript", "ts", "html", "css", "bash", "shell"],
+    }),
+  ],
   theme: defaultTheme({
     logo: "/assets/logo.svg",
     repo: "HaploidJS/haploid",
