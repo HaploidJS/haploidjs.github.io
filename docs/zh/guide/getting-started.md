@@ -87,9 +87,9 @@ rc.registerApps<{ username: string }>([{
 }]);
 ```
 
-> 子应用有多种声明方式，不局限于一个 URL，参见：[注册子应用](/zh/essentials/register-app.html)。
+> 子应用有多种声明方式，不局限于一个 URL，参见：[注册子应用](/zh/guide/register-app.html)。
 
-路由容器需要一个额外的 **activeWhen** 选项，这和 _single-spa_ 是完全兼容的。
+路由容器需要一个额外的 `activeWhen` 选项，这和 _single-spa_ 是完全兼容的。
 
 接下来，对于路由容器，你需要启动它：
 
@@ -97,7 +97,7 @@ rc.registerApps<{ username: string }>([{
 rc.run();
 ```
 
-对于手动容器，你可以使用 _activateApp_ 函数来激活任意一个子应用：
+对于手动容器，你可以使用 `activateApp` 函数来激活任意一个子应用：
 
 ```ts
 mc.activateApp("foo");

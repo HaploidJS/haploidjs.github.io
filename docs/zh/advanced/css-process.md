@@ -41,7 +41,7 @@ const rules: CSSRuleList = sheet.rules;
 }
 ```
 
-显然，这是一种破坏性的转换，原因在于 _background_ 作为一种简写，直接以变量赋值，无法预测与 _background-repeat:_ 的融合结果。
+显然，这是一种破坏性的转换，原因在于 _background_ 作为一种简写，直接以变量赋值，无法预测与 _background-repeat_ 的融合结果。
 
 我们不建议上面的写法，但是如果一定需要兼容，那么 Haploid.js 也提供了纯正则匹配字符串的处理方式，需要手动以 `dropURLFixInCSSByStyleSheet` 开启：
 
@@ -57,7 +57,7 @@ container.registerApp({
 具体的正则表达式是 `/\burl\(\s*(['"])?(.*?)\1\s*\)/`，如果超出其匹配范围，就可能产生错误。
 
 ::: danger
-[image-set](https://developer.mozilla.org/en-US/docs/Web/CSS/image/image-set) 有两种写法，加 _url()_ 的和不加的，目前 Haploid.js 还无法处理后则。
+[image-set](https://developer.mozilla.org/en-US/docs/Web/CSS/image/image-set) 有两种写法，加 _url()_ 的和不加的，目前 Haploid.js 还无法处理第二种。
 
 ```css
 #content {

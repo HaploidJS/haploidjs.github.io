@@ -7,6 +7,10 @@ export const sidebarZh: SidebarConfig = {
       children: [
         "/zh/guide/README.md",
         "/zh/guide/getting-started.md",
+        {
+          text: "原理",
+          children: ["/zh/guide/principle/concurrent-scheduling.md"],
+        },
         "/zh/guide/register-app.md",
         "/zh/guide/preload.md",
         "/zh/guide/keep-alive.md",
@@ -38,6 +42,7 @@ export const sidebarZh: SidebarConfig = {
         "/zh/advanced/custom-container.md",
         "/zh/advanced/plug-in.md",
         "/zh/advanced/restorability.md",
+        "/zh/advanced/safe-mode.md",
         "/zh/advanced/faq.md",
       ],
     },

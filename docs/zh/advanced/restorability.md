@@ -9,9 +9,9 @@ Haploid.js 做了大量了的努力来增强页面上微前端服务的稳定性
 触发加载（load）子应用至少有两个因素：
 
 - 通过用户交互触发，比如 URL 导航到指定应用之下；
-- [预加载](/zh/guide/essentials/preload.html)
+- [预加载](/zh/guide/preload.html)
 
-现如今浏览器已经都支持ESM，越来越多的应用都会以更细的粒度进行 CSS 和 JS 打包，导致子应用在 `load` 阶段需要并发大量请求。
+现如今浏览器已经都支持 ESM，越来越多的应用都会以更细的粒度进行 CSS 和 JS 打包，导致子应用在 `load` 阶段需要并发大量请求。
 
 如果有过多的应用同时 load，那么可能出现性能问题，甚至增加出错概率。
 
@@ -68,7 +68,7 @@ container.registerApp({
 
 ## 死循环侦测
 
-详见[路由死循环侦测](/zh/essentials/router-dead-loop-detect.html)。
+详见[路由死循环侦测](/zh/guide/router-dead-loop-detect.html)。
 
 ## UMD 缓存
 
@@ -86,4 +86,4 @@ container.registerApp({
 }
 ```
 
-同一个页面上的说有实例，甚至不同的 Haploid.js 副本，都会尽可能地利用此 Map，从而节省开销，并避免多次运行同一份 UMD 代码可能带来的副作用。
+同一个页面上的所有实例，甚至不同的 Haploid.js 副本，都会尽可能地利用此 Map，从而节省开销，并避免多次运行同一份 UMD 代码可能带来的副作用。

@@ -1,14 +1,14 @@
-# 插件扩展
+# Plugins
 
-Haploid.js 复用了 webpack 的 <a href="https://github.com/webpack/tapable" target="_blank">tapable</a> 模式提供了扩展能力。
+Haploid.js reuses webpack's <a href="https://github.com/webpack/tapable" target="_blank">tapable</a> mode to provide scalability.
 
-事实上，_preload_、_keep-alive_ 以及请求各种格式 entry 的能力在 Haploid.js 内部都是通过插件来完成的，比如 [LoadFromEntryPlugin.ts](https://github.com/HaploidJS/haploid/blob/main/src/plugins/LoadFromEntryPlugin.ts)。
+In fact, the _preload_, _keep-alive_ and the ability to request a variety of formats entry in Haploid.js internal are accomplished through plugins, such as [LoadFromEntryPlugin.ts](https://github.com/HaploidJS/haploid/blob/main/src/plugins/LoadFromEntryPlugin.ts).
 
 ## Hooks & Events
 
 ### Container
 
-Container 包含如下的可注册事件：
+The Container contains the following registrable events:
 
 ```ts
 interface ContainerEvent {
@@ -26,7 +26,7 @@ interface ContainerEvent {
 }
 ```
 
-注册与反注册事件都需要在销毁之前：
+Both registration and unregistration events need to be prior to destruction:
 
 ```ts
 container.on("appactivating", (appname) => {});
@@ -35,7 +35,7 @@ container.once("destroying", () => {});
 container.off("appactivating", () => {});
 ```
 
-Container 有如下 hooks：
+Container has the following hooks：
 
 ```ts
 type ContainerHooks = {
@@ -47,7 +47,7 @@ container.hooks.afterrootready.tapPromise("any", ({ source }) => {});
 
 ### Lifecycle
 
-_Lifecycle_ 代表了对子应用生命周期函数的描述，包含如下的可注册事件：
+_Lifecycle_ represents a description of the sub-application lifecycle functions and contains the following registrable events:
 
 ```ts
 interface LifecycleEvent {
@@ -76,7 +76,7 @@ app.lifecycle.once("beforeunmount", () => {});
 app.lifecycle.off("beforemount", () => {});
 ```
 
-Lifeycycle 有如下 hooks：
+Lifeycycle has the following hooks：
 
 ```ts
 type LifecycleHooks<CustomProps> = {
@@ -105,7 +105,7 @@ type LifecycleHooks<CustomProps> = {
 
 ### App
 
-_App_ 包含如下的可注册事件：
+_App_ contains the following registrable events:
 
 ```ts
 interface AppEvent {
@@ -139,7 +139,7 @@ container.once("beforeunload", () => {});
 container.off("beforestop", () => {});
 ```
 
-App 有如下 hooks：
+App has the following hooks：
 
 ```ts
 type AppHooks = {
@@ -186,7 +186,7 @@ type AppHooks = {
 
 ## Plugin
 
-在 Container 注册 App 时，可传入函数插件：
+When registering an App in the Container, function plugins can be passed in:
 
 ```ts
 function createMyPlugin<AdditionalOptions, CustomProps>(): AppPlugin<AdditionalOptions, CustomProps> {
@@ -203,4 +203,4 @@ container.registerApp({
 ]);
 ```
 
-插件会以传入的顺序被执行。
+Plugins are executed in the order they were passed in.

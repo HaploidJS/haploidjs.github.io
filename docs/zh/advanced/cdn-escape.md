@@ -2,7 +2,7 @@
 
 `CDN 调度`是指系统 **动态** 切换其托管在 CDN 上静态资源的域名的能力，以应对突发故障和实现负载均衡。
 
-实现 CDN 调度的最简单手段是 HTTP 服务器（如）修改 HTML 中引用静态资源的域名，事实上就是一次文本替换。
+实现 CDN 调度的最简单手段是 HTTP 服务器（如 nginx）修改 HTML 中引用静态资源的域名，事实上就是一次文本替换。
 
 然而，为了应对增量下载的静态资源，JS 必须感知新的域名，那么可以在 HTML 内联一个变量：
 
@@ -56,7 +56,7 @@ __webpack_public_path__ = __CDN_DOMAIN__ + "/static/";
 ```
 
 ::: tip
-以上主要应对 UMD，如果是 ESM，可以参考 vite 的 [进阶基础路径选项](https://vitejs.dev/guide/build.html#advanced-base-options)。
+以上主要应对 UMD，如果是 ESM，可以参考 vite 的 [进阶基础路径选项](https://cn.vitejs.dev/guide/build.html#advanced-base-options)。
 :::
 
 ::: warning

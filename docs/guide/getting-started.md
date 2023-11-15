@@ -1,12 +1,12 @@
 # Getting Started
 
 ::: tip
-We assume that you have enough knowledge of _git_, _npm_, _typescript_ and broswer API like _document_, _history_, _localStorage_ and more.
+We assume that you already have a basic knowledge of _git_/_npm_/_typescript_ and browser APIs such as _document_/_history_/_localStorage_.
 :::
 
-## Install
+## Installation
 
-You can install haploid.js by npm/yarn/pnpm:
+You can use npm/yarn/pnpm to install Haploid.js:
 
 <CodeGroup>
   <CodeGroupItem title="NPM" active>
@@ -34,13 +34,13 @@ pnpm add haploid
   </CodeGroupItem>
 </CodeGroup>
 
-You can also link a &lt;script&gt; to _unpkg.com_:
+You can also use a CDN link directly:
 
 ```html
 <script src="//unpkg.com/haploid@latest/dist/haploid.umd.min.js"></script>
 ```
 
-or use ESM format:
+or ESM format:
 
 ```html
 <script type="module">
@@ -48,9 +48,9 @@ or use ESM format:
 </script>
 ```
 
-## Usage
+## Creating Main Application
 
-First, you should create a _Container_, which refers to an instance:
+A big difference between Haploid.js and other schemes is that it supports `multiple instances`, so you should first create an instance before registering a sub-application. We use a Container to represent an instance, and an instance also locks a unique DOM mount point:
 
 ```ts
 import { ManualContainer, RouterContainer } from "haploid";
@@ -66,19 +66,19 @@ const rc = new RouterContainer({
 });
 ```
 
-Haploid.js supports two kinds of _Container_: **manual** and **router**.
+Haploid.js supports two types of containers: **manual** and **router**. The difference between them is that the former requires manual control of which sub-applications are activated, while the latter is linked to the browser's address bar, so it is only a different trigger mechanism that you can implement a new container type with additional triggers.
 
-For any kind, you can register one or more applications, like _single-spa_ does:
+For either type of container, you can register one or more sub-applications like _single-spa_:
 
 ```ts{12}
-// Manual
+// manual
 mc.registerApps<{ username: string }>([{
     name: 'foo',
     entry: 'https://foo.com/entry',
     customProps: { username: 'jake' },
 }]);
 
-// Router
+// router
 rc.registerApps<{ username: string }>([{
     name: 'foo',
     entry: 'https://foo.com/entry',
@@ -87,21 +87,23 @@ rc.registerApps<{ username: string }>([{
 }]);
 ```
 
-The router container needs one more **activeWhen** option, to match the location of current page.
+> Sub-applications can be declared in a variety of ways, not limited to a URL, see: [Register SubApps](/guide/register-app.html)
 
-Next, you should run the router container:
+Router containers require an additional `activeWhen` option, which is fully compatible with _single-spa_.
+
+Next, for a router container, you need to start it:
 
 ```ts
 rc.run();
 ```
 
-For manual container, you can activate any application by calling _activateApp_ function:
+For a manual container, you can use the `activateApp` function to activate any sub-application:
 
 ```ts
 mc.activateApp("foo");
 ```
 
-There are many events you can listen to:
+You can listen for many events on a container instance:
 
 ```ts
 rc.on("appactivating", ({ appname }) => {});
@@ -109,3 +111,47 @@ rc.on("appactivated", ({ appname }) => {});
 rc.on("appactivateerror", ({ appname, error }) => {});
 rc.on("noappactivated", ({ error }) => {});
 ```
+
+## Declare Sub-Apps
+
+Haploid.js is fully compatible with _single-spa_'s definition of sub-applications, so single-spa-vue*/\_single-spa-react* can continue to be used to encapsulate sub-applications without redundancy.
+
+In the modern frontend development and operation environment, we recommend to play the bun application in ESM format, such as under vite:
+
+```js
+// main.js
+import Vue from "vue";
+import singleSpaVue from "single-spa-vue";
+
+import App from "./App.vue";
+import router from "./router";
+
+const vueLifecycles = singleSpaVue({
+  Vue,
+  appOptions: {
+    render(h) {
+      return h(App);
+    },
+    router,
+  },
+});
+
+export const bootstrap = vueLifecycles.bootstrap;
+export const mount = vueLifecycles.mount;
+export const unmount = vueLifecycles.unmount;
+```
+
+By default, vite does not retain the export to the entry file, you need to configure _rollup_:
+
+```js
+// vite.config.js
+{
+  build: {
+    rollupOptions: {
+      preserveEntrySignatures: "exports-only";
+    }
+  }
+}
+```
+
+ESM sub-applications are better than UMD in terms of load tolerance and module reuse.

@@ -2,7 +2,12 @@
 
 异步路由撤销（_async navigation cancelation_）是 _single-spa_ 的 v6 版本 <a href="https://github.com/single-spa/single-spa/pull/826" target="_blank">提出的</a>。不过受制于它的实现有漏洞，见 [#single-spa#953](https://github.com/single-spa/single-spa/issues/953)，很可能导致用户看到的视图被意外篡改，不符合操作期望：
 
-![](/assets/async-navigation-cancelation.jpg)
+```
+  enter A → enter B → enter C         back to A
+              ↓                           ↑
+              ↓                           ↑ ❌
+             ANC---------------------------
+```
 
 _single-spa_ 出现这个问题的关键原因是撤销回到上一个路由时没有考虑系统的最新状态，盲目回跳。
 

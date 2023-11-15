@@ -12,7 +12,7 @@ container.registerApp({
 });
 ```
 
-在开启了 `preload` 选项之后，系统会依赖 _requestIdleCallback_ 找到时机去提前载入子应用的 JS/CSS 资源，拿到生命周期函数，其中`preloadDelay` 选项为延时时间，默认为 0。
+在开启了 `preload` 选项之后，系统会依赖 _requestIdleCallback_ 找到时机去提前载入子应用的 JS/CSS 资源，拿到生命周期函数，其中 `preloadDelay` 选项为延时时间，默认为 0。
 
 假设子应用 A 正在预先载入过程中，用户操作触发激活 A，那么就会复用正在进行的载入过程。
 
