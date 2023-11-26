@@ -2,7 +2,7 @@
 
 [[toc]]
 
-You can usually register a sub-application using the `registerApp` method of a container instance, or you can register `registerApps` in bulk.
+You can usually register a sub-application using the `registerApp` method of a container instance, or you can register by `registerApps` in bulk.
 
 They return an _AppAPI_ object, which provides a set of properties for fine-grained access to the state of the sub-application, controlling the behavior of the sub-application, and listening to the events of the sub-application.
 
@@ -43,7 +43,7 @@ In Haploid.js, there are several ways to declare a sub-application's entry.
 
 ### HTML entry
 
-Starting with _qiankun_, almost all micro-frontend frameworks support entry in HTML format, i.e. parsing JS and CSS from HTML pages. It's just that HTML code is ever-changing, and different attributes contained by different elements can affect the availability of JS/CSS, the execution method, and the order of execution.
+Starting with _qiankun_, almost all micro-frontend frameworks support entry in HTML format, i.e. parsing JS and CSS from HTML pages. It's just that HTML code is ever-changing, and different attributes contained by different elements can affect the availability of JS and CSS, the execution method, and the order of execution.
 
 Haploid.js supports the following attributes of HTML elements, making it as compatible as possible with HTML:
 
@@ -51,7 +51,7 @@ Haploid.js supports the following attributes of HTML elements, making it as comp
   - type: valid if not present or equals "text/css"
   - media: retain
 - &lt;link&gt;
-  - disabled: not legal if it exists
+  - disabled: not legal if present
   - type: valid if it not present or if the value is "text/css"
   - rel: valid if it not present or if the value is "stylesheet"
   - href: illegal if not present or empty
@@ -68,7 +68,7 @@ Haploid.js supports the following attributes of HTML elements, making it as comp
   - nomodule
 
 ::: tip
-If the entry ends with _.htm/.html/.xhtml/.shtml_, or if the Content-Type returned by the request for entry contains _text/html_ or _application/xhtml+xml_, the entry is considered to be in HTML format.
+If the entry ends with _.htm_, _.html_, _.xhtml_, _.shtml_, or if the Content-Type returned by the request for entry contains _text/html_ or _application/xhtml+xml_, the entry is considered to be in HTML format.
 :::
 
 ### JSON entry
@@ -97,7 +97,7 @@ interface JSONEntryV2 {
 }
 ```
 
-The reason for supporting JSON is that compared to HTML,JSON is more semantic and easier to parse, if the sub-application does not have complex logic, it is recommended to use this format, but this requires the active generation of JSON files.
+The reason for supporting JSON is that compared to HTML,JSON is more semantic and easier to parse, if the sub-application does not have complex logic, it is recommended to use this format, but this requires the pro-actively generation of JSON files.
 
 > Currently, the customized JSON format is not supported.
 
@@ -110,7 +110,7 @@ If an entry ends with _.json_, or if the Content-Type returned by the request en
 Haploid.js also supports entry in JS format, but this is missing the CSS description.
 
 ::: tip
-If the entry ends with _.js_ or _.mjs_, Or if the _Content-Type_ returned by the request entry contains _text/javascript_/_application/javascript_/_application/ecmascript_, the entry is considered to be in JS format.
+If the entry ends with _.js_ or _.mjs_, or if the _Content-Type_ returned by the request entry contains _text/javascript_, _application/javascript_, _application/ecmascript_, the entry is considered to be in JS format.
 :::
 
 JS is divided into ESM and UMD two formats. Since the execution of these two is different, Haploid.js needs to determine the format, in the following way:
@@ -148,7 +148,7 @@ rc.registerApp({
 });
 ```
 
-This form is often used in scenarios where the master sub-application is in a build application.
+This form is often used in scenarios where the master and sub-application are in one project.
 
 ## Asynchronous Entry
 

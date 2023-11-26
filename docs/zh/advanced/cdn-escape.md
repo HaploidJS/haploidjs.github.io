@@ -49,7 +49,6 @@ container.registerApp({
 
 ```js
 // set-public-path.js
-
 __webpack_public_path__ = window.__cdn_prefix + "/static/";
 // 或者
 __webpack_public_path__ = __CDN_DOMAIN__ + "/static/";

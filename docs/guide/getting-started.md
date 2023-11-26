@@ -1,12 +1,12 @@
 # Getting Started
 
 ::: tip
-We assume that you already have a basic knowledge of _git_/_npm_/_typescript_ and browser APIs such as _document_/_history_/_localStorage_.
+We assume that you already have a basic knowledge of _git_, _npm_, _typescript_ and browser APIs such as _document_, _history_ and _localStorage_.
 :::
 
 ## Installation
 
-You can use npm/yarn/pnpm to install Haploid.js:
+You can use npm, yarn and pnpm to install Haploid.js:
 
 <CodeGroup>
   <CodeGroupItem title="NPM" active>
@@ -50,7 +50,7 @@ or ESM format:
 
 ## Creating Main Application
 
-A big difference between Haploid.js and other schemes is that it supports `multiple instances`, so you should first create an instance before registering a sub-application. We use a Container to represent an instance, and an instance also locks a unique DOM mount point:
+A big difference between Haploid.js and other frameworks is that it supports `multi-instances`, so you should first create an instance before registering a sub-application. We use a Container to represent an instance, and an instance also locks a unique DOM mount point:
 
 ```ts
 import { ManualContainer, RouterContainer } from "haploid";
@@ -66,7 +66,7 @@ const rc = new RouterContainer({
 });
 ```
 
-Haploid.js supports two types of containers: **manual** and **router**. The difference between them is that the former requires manual control of which sub-applications are activated, while the latter is linked to the browser's address bar, so it is only a different trigger mechanism that you can implement a new container type with additional triggers.
+Haploid.js supports two types of containers: **manual** and **router**. The difference between them is that the former requires manual control of which sub-applications are activated, while the latter is linked to the browser's URL, so it is only a different trigger mechanism that you can implement a new container type with additional triggers.
 
 For either type of container, you can register one or more sub-applications like _single-spa_:
 
@@ -114,9 +114,9 @@ rc.on("noappactivated", ({ error }) => {});
 
 ## Declare Sub-Apps
 
-Haploid.js is fully compatible with _single-spa_'s definition of sub-applications, so single-spa-vue*/\_single-spa-react* can continue to be used to encapsulate sub-applications without redundancy.
+Haploid.js is fully compatible with _single-spa_'s definition of sub-applications, so _single-spa-vue_/_single-spa-react_ can still be used to encapsulate sub-applications without redundancy.
 
-In the modern frontend development and operation environment, we recommend to play the bun application in ESM format, such as under vite:
+In the modern frontend development and operation environment, we recommend to bundle applications in ESM format, such as under vite:
 
 ```js
 // main.js

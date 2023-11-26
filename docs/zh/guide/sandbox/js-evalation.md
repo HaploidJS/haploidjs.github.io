@@ -55,13 +55,13 @@ window.foo; // throw error
 
 在沙盒环境中，除了 self、top、parent、globalThis、document、location、addEventListener、removeEventListener、dispatchEvent、eval、isFinite、isNaN、parseFloat、parseInt、hasOwnProperty、decodeURI、decodeURIComponent、encodeURI、encodeURIComponent 等和在 **envVariables** 选项中声明的变量外，其它都不应如此使用，**因为会逃逸到全局中去，而且对于未声明过的变量，在严格模式（开启了`useStrict`选项）下还会抛出异常。**
 
-建议自定义变量均使用 window/globalThis 前缀。
+建议访问自定义变量均使用 window/globalThis 上下文。
 
 ## 环境变量
 
 Haploid.js 提供了 `envVariables` 选项来声明一些虚拟变量。该选项无论开启沙箱都有效，但也有明显的区别。
 
-```ts
+```ts{5-7}
 container.registerApp({
   name: "foo",
   entry: "https://foo.com/entry",
@@ -78,7 +78,7 @@ container.registerApp({
 
 ## 上下文传递
 
-在一般的沙箱中，JS 都是在独立的 function 上下文下执行的，因此如下列代码中，全局变量 a 是无法被后面访问到的：
+在沙箱中，JS 都是在独立的 function 上下文下执行的，因此如下列代码中，全局变量 _a_ 是无法被后面访问到的：
 
 ```html
 <script>
@@ -89,18 +89,4 @@ container.registerApp({
 </script>
 ```
 
-不过，Haploid.js 实现了一种上下文嵌套关系，能够实现上述这种简单的上下文传递。但前提是只能用var来声明变量。具体原理如下所示：
-
-```ts
-function () {
-    var a = 2022;
-    function () {
-        var b = 2023
-        function () {
-            console.log(a, b);
-        }
-    }
-}
-```
-
-当然最稳妥的做法还是直接操作 window/globalThis 的属性。
+如果要共享变量，可以在 window 上写入。

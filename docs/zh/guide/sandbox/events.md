@@ -64,7 +64,7 @@ window.onbeforeunload = onBeforeUnload2; // onBeforeUnload is removed immediatel
   - DOMContentLoaded: 在 document 处开启即可，自动冒泡到 window
   - load: 与 DOMContentLoaded 几乎同时触发
 
-```ts
+```ts{6-7}
 container.registerApp({
   name: "foo",
   entry: "https://foo.com/entry",

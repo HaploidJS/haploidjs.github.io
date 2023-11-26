@@ -1,6 +1,6 @@
 # Router Dead Loop Detection
 
-Dead-loop routing is usually a dead-loop jump of a page request caused by setting an incorrect routing jump is usually blocked by the browser, while a dead-loop in history causes a stack overflow error in JS.
+The routing loop is usually caused by incorrect routing hops. Dead-loop jumps to page requests are usually blocked by the browser, and history's dead-loop results in a stack overflow error for JS.
 
 Haploid.js will try to detect the loop to some extent, by calculating the `history.pushState/replaceState` operation in the past 1 second, if the jump more than 50 times, or jump to the same path more than 20 times, it is recognized as a routing exception.
 

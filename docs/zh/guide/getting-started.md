@@ -6,7 +6,7 @@
 
 ## 安装
 
-你可以使用 npm/yarn/pnpm 来安装 Haploid.js：
+你可以使用 npm, yarn 和 pnpm 来安装 Haploid.js：
 
 <CodeGroup>
   <CodeGroupItem title="NPM" active>

@@ -7,6 +7,10 @@ export const sidebarEn: SidebarConfig = {
       children: [
         "/guide/README.md",
         "/guide/getting-started.md",
+        {
+          text: "Principles",
+          children: ["/guide/principle/concurrent-scheduling.md"],
+        },
         "/guide/register-app.md",
         "/guide/preload.md",
         "/guide/keep-alive.md",

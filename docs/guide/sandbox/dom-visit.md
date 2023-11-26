@@ -1,6 +1,6 @@
 # DOM Visit
 
-Whether you start sandboxed or not, Haploid.js renders the sub-application into the following simulated DOM structure:
+Whether you enabled sandbox or not, Haploid.js renders the sub-application into the following simulated DOM structure:
 
 ```html
 <haploid-html class="haploid-html">
@@ -11,9 +11,9 @@ Whether you start sandboxed or not, Haploid.js renders the sub-application into 
 </haploid-html>
 ```
 
-But some BOM apis behave differently.
+But some _BOM_ APIs behave differently.
 
-Such as the document. The `document.documentElement` will point the &lg;haploid-html&gt; element above. If open the `sandbox.enableHtmlPretending` option, the `document.documentElement` will behave as native &lt;html&gt; as possible, including:
+The `document.documentElement` refers to the &lg;haploid-html&gt; element above. If enabled the `sandbox.enableHtmlPretending` option, the `document.documentElement` will behave as native &lt;html&gt; as possible, including:
 
 ```js
 document.documentElement.constructor === HTMLHtmlElement;
@@ -28,12 +28,12 @@ document.documentElement instanceof HTMLHtmlElement === true;
 > The _document_ above is the proxy object.
 
 ::: danger
-This camouflage can be fatal in some cases, such as when the _parentElement_ is null, which can cause some logic to be traced back to the real document to be broken
+These pretendings can be fatal in some cases, such as when the _parentElement_ is null, which can cause some logic to be traced to the real document to be broken
 :::
 
 `sandbox.enableBodyPretending`、 `sandbox.enableHeadPretending` and `sandbox.enableTitlePretending` have a similar effect.
 
-See <a href="/essentials/sandbox/env-proxy.html#document">Environmental Agent</a> for more details.
+See <a href="/essentials/sandbox/env-proxy.html#document">Environmental Proxy</a> for more details.
 
 ---
 
@@ -62,4 +62,4 @@ The following DOM structure will be generated:
 </haploid-html>
 ```
 
-If the `preserveHTML` option is turned on, and entry is in HTML format, then the DOM in it will be securely filtered and copied.
+If the `preserveHTML` option is enabled, and entry is in HTML format, then the DOM in it will be securely filtered and copied.

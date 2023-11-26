@@ -2,7 +2,7 @@
 
 ## Variable read and write
 
-After turning on the sandbox, the reading and writing of the Window attribute will be limited to the sandbox without spilling, including the following operations:
+When enabled sandbox, the reading and writing of the Window attribute will be limited to the sandbox without escaping, including the following operations:
 
 ```ts
 window.foo = 1;
@@ -14,13 +14,13 @@ delete window.foo;
 Reflect.deleteProperty(window, "foo");
 ```
 
-Note that the success of the read and write operation is also affected by the attributes of the original variable, for example, there is a _non-writable_ attribute foo on the window, then the sandbox assignment will also fail
+Note that the success of the read and write operation is also affected by the attributes of the original variable, for example, there is a _non-writable_ attribute foo on the window, then the sandbox assignment will also fail:
 
 ```ts
 window.foo = "new value"; // ❌
 ```
 
-In addition to window, Haploid.js also **protects reading and writing to the document attribute**, although this is rarely done
+In addition to window, Haploid.js also **protects reading and writing to the document attribute**, although this is rarely needed.
 
 ::: warning
 Reads and writes to global variables other than window document are not sandboxed, such as **navigator.c=1**.
@@ -28,9 +28,9 @@ Reads and writes to global variables other than window document are not sandboxe
 
 ## Escape of variable
 
-You may want to use the `escapeVariables` option to read and write the actual window and document versions of the file in Haploid.js.
+You may want to use the `escapeVariables` option to read and write the actual window and document versions in Haploid.js:
 
-```ts
+```ts{6}
 container.registerApp({
   name: "foo",
   entry: "https://foo.com/entry",
@@ -51,17 +51,17 @@ window.foo; // throw error
 
 ## Global Variables
 
-In general, for reading and writing _window.foo_, we can omit the context prefix and simply write _foo_ instead of the usual one. This is how we use document history navigaor
+In general, for reading and writing _window.foo_, we can omit the context prefix and simply write _foo_ instead of the usual one. This is how we use document, history and navigaor.
 
-In a sandbox environment, except self top parent globalThis document location addEventListener removeEventListener dispatchEvent eval isFinite isNaN parseFloat parseInt hasOwnProperty decodeURI decodeURIComponent encodeURI encodeURIComponent and so on in **envVariables** None of the variables declared in the option should be used this way, **as it will escape to the world, and exceptions will be thrown for undeclared variables in strict mode (with useStrict turned on).**
+In a sandbox environment, except self, top, parent, globalThis, document, location, addEventListener, removeEventListener, dispatchEvent, eval, isFinite, isNaN, parseFloat, parseInt, hasOwnProperty, decodeURI, decodeURIComponent, encodeURI, encodeURIComponent and so on in **envVariables**, none of the variables declared in the option should be used this way, **as it will escape to the global, and exceptions will be thrown for undeclared variables in strict mode (with `useStrict` turned on).**
 
-It is recommended that custom variables use Window/Globalthis prefix.
+It is recommended that custom variables be accessed using the window/globalThis context.
 
 ## Environment Variables
 
 Hapload.js provides the `envVariables` option to declare some virtual variables.This option is effective, but it is obviously different.
 
-```ts
+```ts{5-7}
 container.registerApp({
   name: "foo",
   entry: "https://foo.com/entry",
@@ -78,7 +78,7 @@ If there is a conflict with a variable on window, the values in **envVariables**
 
 ## Context
 
-In a normal sandbox,JS is executed in a separate function context, so the global variable a cannot be accessed later, as in the following code:
+In sandbox, JS is executed in a separate function context, so the global variable _a_ cannot be accessed later, as in the following code:
 
 ```html
 <script>
@@ -89,18 +89,4 @@ In a normal sandbox,JS is executed in a separate function context, so the global
 </script>
 ```
 
-However, Haploid.js implements a context nesting relationship that enables simple context passing as described above but only if variables can be declared with var as shown below:
-
-```ts
-function () {
-    var a = 2022;
-    function () {
-        var b = 2023
-        function () {
-            console.log(a, b);
-        }
-    }
-}
-```
-
-Of course, the most secure way is to directly operate the attributes of Window/globaTthis.
+If you want to share variables, you can write them on Window.

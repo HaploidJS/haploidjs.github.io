@@ -11,7 +11,7 @@
 </haploid-html>
 ```
 
-但一些 BOM API 的行为会有所不同。
+但一些 _BOM_ API 的行为会有所不同。
 
 比如 `document.documentElement` 会指向上面的 &lg;haploid-html&gt; 元素。如果开启 `sandbox.enableHtmlPretending` 选项，`document.documentElement` 就会尽可能表现得像原生 &lt;html&gt; 一样，包括：
 

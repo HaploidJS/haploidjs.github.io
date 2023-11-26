@@ -4,7 +4,7 @@
 
 The simplest way to implement CDN scheduling is for an HTTP server (such as nginx) to modify the domain name in HTML that refers to a static resource, in effect a text substitution.
 
-However, in order to cope with incremental downloads of static resources,JS must be aware of the new domain name, then a variable can be inline in HTML:
+However, in order to cope with incremental downloads of static resources, JS must be aware of the new domain name, then a variable can be inline in HTML:
 
 ```html
 <script>
@@ -12,9 +12,9 @@ However, in order to cope with incremental downloads of static resources,JS must
 </script>
 ```
 
-For webpack, [publicPath on the fly](https://webpack.js.org/guides/public-path/#on-the-fly) can be used to replace the UMD modules to be dynamically downloaded and the ESM built by vite Since all modules are relative paths, you only need to switch the address of the entry module.
+For webpack, [publicPath on the fly](https://webpack.js.org/guides/public-path/#on-the-fly) can be used to replace the UMD modules to be dynamically downloaded. For ESM built by vite, since all modules are relative paths, you only need to modify the address of the entry module.
 
-Haploid.js provides support for CDN scheduling under the micro-frontend, just need to declare the `urlRewrite()` option for the sub-application:
+Haploid.js provides supporting for CDN scheduling under the micro-frontend, just need to declare the `urlRewrite()` option for the sub-application:
 
 ```ts{6}
 container.registerApp({
@@ -25,14 +25,14 @@ container.registerApp({
 });
 ```
 
-The sub-application must also be aware of the \_\_cdn_prefix. If the sandbox is not enabled, it can directly read the CDN prefix:
+The sub-application must also be aware of the \_\_cdn_prefix. If the sandbox is not enabled, you can directly read the CDN prefix:
 
 ```js
 // set-public-path.js
 __webpack_public_path__ = window.__cdn_prefix + "/static/";
 ```
 
-If the sandbox is enabled, you can let the \_\_cdn_prefix escape, or use it to declare an environment variable:
+If the sandbox is enabled, you can let the \_\_cdn_prefix escaped, or use it to declare an environment variable:
 
 ```ts{6,8}
 container.registerApp({
@@ -49,7 +49,6 @@ container.registerApp({
 
 ```js
 // set-public-path.js
-
 __webpack_public_path__ = window.__cdn_prefix + "/static/";
 // or
 __webpack_public_path__ = __CDN_DOMAIN__ + "/static/";

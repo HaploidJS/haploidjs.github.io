@@ -2,7 +2,7 @@
 
 This only refers to the events of the document and window objects, so it is called a _local event_.
 
-**Haploid.js has designed a separate event system for window and document, so that the sandbox has the ability to isolate from the outside.** The system simulates the trapping and bubbling behavior of events, functions like _stopPropagation_/_stopImmediatePropagation_/_composedPath_/_preventDefault_ and properties like _eventPhase_/_target_/_currentTarget_ are all avaliable.
+**Haploid.js has designed a separate event system for window and document, so that the sandbox has the ability to isolate from the outside.** The system simulates the trapping and bubbling behavior of events, functions like _stopPropagation_, _stopImmediatePropagation_, _composedPath_, _preventDefault_ and properties like _eventPhase_, _target_, _currentTarget_ are all avaliable.
 
 However, it should be noted that ordinary DOM bubbling events will be passed to the proxy document proxy window through the real document window object, and the return value of the _composedPath_ function of the event will escape the sandbox range.
 
@@ -53,7 +53,7 @@ window.onbeforeunload = onBeforeUnload2; // onBeforeUnload is removed immediatel
 
 ## Compensation
 
-Due to the particularity of the micro-frontend sub-application load timing, it often lacks some specific page events, such as load/DOMContentLoaded/beforeunload, etc. Haploid.js provides certain compensation capabilities, can use `autoDocumentEvents` and The `autoWindowEvents` option specifies which events need to be compensated.
+Due to the particularity of the micro-frontend sub-application load timing, it often lacks some specific page events, such as load/DOMContentLoaded/beforeunload, etc. Haploid.js provides certain compensation capabilities, can use the `autoDocumentEvents` and `autoWindowEvents` option specifies which events need to be compensated.
 
 Currently supported compensation events are:
 
@@ -64,7 +64,7 @@ Currently supported compensation events are:
   - DOMContentLoaded: enabled in document and bubbles to window automatically
   - load: triggers almost simultaneously with DOMContentLoaded
 
-```ts
+```ts{6-7}
 container.registerApp({
   name: "foo",
   entry: "https://foo.com/entry",

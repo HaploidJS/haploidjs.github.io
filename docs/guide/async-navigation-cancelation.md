@@ -1,6 +1,6 @@
 # Async Navigation Cancelation
 
-Async navigation cancelation is <a href="https://github.com/single-spa/single-spa/pull/826" target="_blank">introduced</a> in version v6 of _single-spa_ but subject to its implementation bugs, see [#single-spa#953](https://github.com/single-spa/single-spa/issues/953), which may cause the view that the user sees to be accidentally tampered with, does not meet the operation expectations.
+Async navigation cancelation is <a href="https://github.com/single-spa/single-spa/pull/826" target="_blank">introduced</a> in version v6 of _single-spa_. However, subject to its implementation has loopholes, see [#single-spa#953](https://github.com/single-spa/single-spa/issues/953), which is likely to cause the view that the user sees to be accidentally tampered with and does not meet the operation expectations
 
 ```
   enter A → enter B → enter C         back to A
@@ -13,7 +13,7 @@ The key reason for this problem in _single-spa_ is that the rollback back to the
 
 Haploid.js implements this feature by declaring a `cancelActivateApp` asynchronous function for the RouterContainer instance:
 
-```ts
+```ts{6-14}
 import { RouterContainer, CancelationRouterNavigation } from "haploid";
 
 new RouterContainer({
@@ -31,7 +31,7 @@ new RouterContainer({
 });
 ```
 
-> If \*_cancelActivateApp_ throws an exception, it is considered not to cancel.
+> If **cancelActivateApp** throws an exception, it is considered not to cancel.
 
 ## Implementation Principle
 
@@ -40,11 +40,11 @@ Unlike _single-spa_, Haploid.js chooses a special confirm/cancel queue model to 
 - Record each route jump only in the states of confirmed, confirming, and canceled;
 - Push them all into a queue in order of priority;
 - 「Rule 1」: The left side of the confirmed unit on the far right must be removed from the queue
-- 「Rule 2」: The rightmost consecutive revoked units must be removed from the queue
+- 「Rule 2」: The rightmost consecutive cancelled units must be removed from the queue
 
-> Pages that are not in the queue, whether eventually confirmed or withdrawn, no longer have control over page navigation.
+> Pages that are not in the queue, whether eventually confirmed or cancelled, no longer have control over page navigation.
 
-For example, if the user enters the page A for the first time, the unconditional setting is confirmed, and then the user jumps to pages B and C consecutively, then the current queue state is (bottom-up):
+For example, if the user enters the page A for the first time, setting it confirmed unconditionally, and then the user jumps to pages B and C consecutively, then the current queue state is (bottom-up):
 
 ```
 [C confirming]
@@ -60,7 +60,7 @@ At this time, the _cancelActivateApp_ of B and C has not returned. Now assuming 
 [A confirmed] ❌
 ```
 
-If B is assumed to confirm first,A must be removed according to 「Rule 1」:
+If B is assumed to confirm first, A must be removed according to 「Rule 1」:
 
 ```{2}
 [C confirming]
@@ -68,7 +68,7 @@ If B is assumed to confirm first,A must be removed according to 「Rule 1」:
 [A confirmed] ❌
 ```
 
-Now we need to see the result of C, if C confirms, then B is removed and the page remains unchanged; If C revokes, then according to 「Rule 2」,C is removed from the queue and the current page should return to B.
+Now we need to see the result of C, if C confirms, then B is removed and the page remains unchanged. If C is cancelled, according to 「Rule 2」, C is removed from the queue and the current page should return to B.
 
 Now let's go back to the original state and see the result of C and B being undone first.
 
@@ -80,9 +80,9 @@ If C cancels first, then according to 「Rule 2」, C is removed from the queue 
 [A confirmed]
 ```
 
-Look at the result of B, if B confirms, then A is removed and the page remains unchanged, if B is also revoked, then B is removed and the current page returns to A.
+Look at the result of B, if B confirms, then A is removed and the page remains unchanged, if B is also cancelled, then B is removed and the current page returns to A.
 
-So if B cancels first, does not match any rules, the page and queue remain unchanged, see C. C is confirmed, then A and B are removed, the page remains unchanged. If C is also revoked, then according to Rule 2, remove B and C, and the page should return to A:
+So if B cancels first, does not match any rules, the page and queue remain unchanged, see C. C is confirmed, then A and B are removed, the page remains unchanged. If C is also cancelled, then according to 「Rule 2」, remove B and C, and the page should return to A:
 
 ```{1,2}
 [C canceled] ❌
@@ -113,7 +113,7 @@ Queue Status      Operation           Queue Status      Operation            Que
 ```
 
 ::: tip
-Since Haploid.js supports multiple instances on the same page, that is, multiple `RouterContainers`, they will all participate in the decision of whether to revoke the route. The specific policy is **one-vote veto**, that is, if any instance decides to revoke the route jump, the route will be revoked
+Since Haploid.js supports multi-instances on the same page, that is, multiple `RouterContainer`s, they will all participate in the decision of whether to cancel the route. The specific policy is **one-vote veto**, that is, if any instance decides to cancel the route jump, the route will be cancelled.
 :::
 
 ::: danger

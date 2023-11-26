@@ -1,13 +1,13 @@
 # JS Sandbox
 
-The sandbox has become the standard of the micro front -end frame.According to the business needs of the front line, haploid.js focuses on the realization of each family, focusing on making some capabilities in the following fields:
+The sandbox has become a standard feature of the micro-frontend frameworks. Haploid.js according to the actual business needs, after referring to the implementation of various, focusing on the following areas to do some capacity strengthening:
 
 1. Js Execution
 2. DOM Visit
-3. Environmental Agent
+3. Environmental Proxy
 4. Local Event
 
-You can only choose whether to open the sandbox when the registry application, and use the `sandbox` option:
+You can only enable the sandbox when registering sub-applications, by the `sandbox` option:
 
 ```ts{4}
 container.registerApp({
@@ -18,10 +18,10 @@ container.registerApp({
 ```
 
 ::: danger
-The sandbox works only in the UMD format.
+The sandbox cannot work for ESM format.
 :::
 
-`sandbox` options can also be used to provide more detailed control:
+The `sandbox` options can also provide more details:
 
 ```ts{5-11}
 container.registerApp({
@@ -29,7 +29,7 @@ container.registerApp({
     entry: 'https://foo.com/entry',
     sandbox: {
         escapeVariables: [],
-        escapeWindowEvents: [];
+        escapeWindowEvents: [],
         autoWindowEvents: ['load'],
         patches: {
             fetch: true,

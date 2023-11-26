@@ -1,6 +1,6 @@
 # JS 沙箱
 
-沙箱（或沙盒）已经成为微前端框架的标配。Haploid.js 根据一线的业务需求，在参考了各家的实现后，着重在以下领域做了部分能力强化：
+沙箱（或沙盒）已经成为微前端框架的标配。Haploid.js 根据实际的业务需求，在参考了各家的实现后，着重在以下领域做了部分能力强化：
 
 1. JS 执行
 2. DOM 访问
@@ -29,7 +29,7 @@ container.registerApp({
     entry: 'https://foo.com/entry',
     sandbox: {
         escapeVariables: [],
-        escapeWindowEvents: [];
+        escapeWindowEvents: [],
         autoWindowEvents: ['load'],
         patches: {
             fetch: true,

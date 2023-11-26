@@ -13,7 +13,7 @@ _single-spa_ 出现这个问题的关键原因是撤销回到上一个路由时�
 
 Haploid.js 实现了这个特性，具体为 RouterContainer 实例声明一个 `cancelActivateApp` 异步函数：
 
-```ts
+```ts{6-14}
 import { RouterContainer, CancelationRouterNavigation } from "haploid";
 
 new RouterContainer({

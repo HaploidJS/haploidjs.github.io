@@ -2,7 +2,7 @@
 
 某些应用明确有比较大的使用概率，为了加速页面跳转，可以设置为预先载入。
 
-```ts
+```ts{5-6}
 container.registerApp({
   name: "foo",
   entry: "https://foo.com/entry",
@@ -12,7 +12,7 @@ container.registerApp({
 });
 ```
 
-在开启了 `preload` 选项之后，系统会依赖 _requestIdleCallback_ 找到时机去提前载入子应用的 JS/CSS 资源，拿到生命周期函数，其中 `preloadDelay` 选项为延时时间，默认为 0。
+在开启了 `preload` 选项之后，系统会依赖 _requestIdleCallback_ 找到时机去提前载入子应用的 JS 和 CSS 资源，拿到生命周期函数，其中 `preloadDelay` 选项为延时时间，默认为 0。
 
 假设子应用 A 正在预先载入过程中，用户操作触发激活 A，那么就会复用正在进行的载入过程。
 
@@ -26,7 +26,7 @@ container.registerApp({
 
 一旦设置为 `"auto"`，该容器会启动一个基于 **localStorage** 存储的类似 LRU-Cache 的模块，计算子应用的访问热度，并在下次再次注册时执行预载。
 
-```ts
+```ts{4}
 new ManualContainer({
   name: "foo",
   root: "#app",
@@ -36,7 +36,7 @@ new ManualContainer({
 
 你也可以将 `preload` 设置为对象来精细化控制 LRU-Cache：
 
-```ts
+```ts{4-12}
 new ManualContainer({
   name: "foo",
   root: "#app",
